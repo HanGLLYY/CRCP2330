@@ -58,7 +58,11 @@ CHIP ALU {
     Not16(in=fxy,out=nfxy);      //not the output or not
     Mux16(a=fxy,b=nfxy,sel=no,out=oo);  //chose which
     
-    And16(a=oo,b[0..15]=false,out=o);//zr
+    Or16(a=oo,b[0..15]=false,out[0..7]=hh1,out[8..15]=drop1);//zr
+    Or16(a=oo,b[0..15]=false,out[0..7]=drop2,out[8..15]=hh2);
+    Or8Way(in=hh1,out=out1);
+    Or8Way(in=hh2,out=out2);
+    Or(a=out1,b=out2,out=o);
     Not(in=o,out=zr);
     And16(a[0..15]=true,b=oo,out[15]=ng,out[0..14]=drop); //ng
     Or16(a=oo,b[0..15]=false,out=out); //oo=output
