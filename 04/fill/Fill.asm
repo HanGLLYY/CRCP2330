@@ -13,4 +13,23 @@
 
 // Put your code here.
 
-@
+//Start
+@SCREEN
+D=A
+
+@KBD
+D=M
+@WHITE
+D,JEQ
+@BLACK
+D;JMP
+
+//White
+
+//Black
+
+@KBD
+D=A-D
+@START
+D;JEQ
+0;JMP
