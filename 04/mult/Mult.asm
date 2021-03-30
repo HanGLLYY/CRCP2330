@@ -11,28 +11,29 @@
 
 // Put your code here.
 
-@sum
+@sum	//Initialize sum to 0
 M=0
 @R1
 D=M
-@count
+@count  //Initialize count to the value at RAM[1]
 M=D
 
 //Loop
 @count
 D=M
-@END
+@END	//Check if count is 0, if so go END
 D;JEQ
 @R0
 D=M
-@sum
+@sum	//Add RAM[0] to sum
 M=M+D
-@count
+@count  //Decrement count by 1
 M=M-1
-@Loop
+@Loop	//loop again
 0;JMP
 
+//END
 @sum
 D=M
-@R2
+@R2	//write sum to RAM[2]
 M=D
