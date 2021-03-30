@@ -13,21 +13,35 @@
 
 // Put your code here.
 
-//Start
+
+//START
 @SCREEN
 D=A
+@pixel	//use pixel as a variable that holds the address of the current pixel
+M=D  //initialize it to the top left pixel of the screen
 
-@KBD
+@KBD //input
 D=M
 @WHITE
-D,JEQ
+D;JEQ
 @BLACK
-D;JMP
+0;JMP
 
-//White
+//WHITE
+@pixel
+M=1
+@NEXT
+0;JMP
 
-//Black
+//BLACK
+@pixel
+M=0
+@NEXT
+0;JMP
 
+@pixel	//set pixel to pixel + 1
+D=M+1
+M=D
 @KBD
 D=A-D
 @START
