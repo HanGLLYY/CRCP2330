@@ -19,13 +19,18 @@ D=M
 M=D
 
 //Loop
-
-
-
-
-
-
-
+@count
+D=M
+@END
+D;JEQ
+@R0
+D=M
+@sum
+M=M+D
+@count
+M=M-1
+@Loop
+0;JMP
 
 @sum
 D=M
