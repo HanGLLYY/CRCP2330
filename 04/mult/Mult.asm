@@ -11,8 +11,23 @@
 
 // Put your code here.
 
-@R0
-
+@sum
+M=0
 @R1
+D=M
+@count
+M=D
 
+//Loop
+
+
+
+
+
+
+
+
+@sum
+D=M
 @R2
+M=D
