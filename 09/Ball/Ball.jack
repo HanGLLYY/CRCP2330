@@ -3,14 +3,14 @@
 // by Nisan and Schocken, MIT Press.
 // File name: projects/09/Square/Square.jack
 
-/** Implements a graphical square. */
-class Square {
+/** Implements a graphical Ball. */
+class Ball {
 
    field int x, y; // screen location of the square's top-left corner
    field int size; // length of this square, in pixels
 
    /** Constructs a new square with a given location and size. */
-   constructor Square new(int Ax, int Ay, int Asize) {
+   constructor Ball new(int Ax, int Ay, int Asize) {
       let x = Ax;
       let y = Ay;
       let size = Asize;
@@ -27,22 +27,22 @@ class Square {
    /** Draws the square on the screen. */
    method void draw() {
       do Screen.setColor(true);
-      do Screen.drawRectangle(x, y, x + size, y + size);
+      do Screen.drawCircle(x + size, y + size, size);
       return;
    }
 
    /** Erases the square from the screen. */
    method void erase() {
       do Screen.setColor(false);
-      do Screen.drawRectangle(x, y, x + size, y + size);
+      do Screen.drawRectangle(x, y, x + getS(), y + getS());
       return;
    }
 
     /** Increments the square size by 2 pixels. */
    method void incSize() {
-      if (((y + size) < 254) & ((x + size) < 510)) {
+      if (((y + getS()) < 254) & ((x + getS()) < 510)) {
          do erase();
-         let size = size + 2;
+         let size = size + 1;
          do draw();
       }
       return;
@@ -50,9 +50,9 @@ class Square {
 
    /** Decrements the square size by 2 pixels. */
    method void decSize() {
-      if (size > 2) {
+      if (size > 1) {
          do erase();
-         let size = size - 2;
+         let size = size - 1;
          do draw();
       }
       return;
@@ -62,22 +62,22 @@ class Square {
    method void moveUp() {
       if (y > 1) {
          do Screen.setColor(false);
-         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
+         do Screen.drawRectangle(x, y, x + getS(), y + getS());
          let y = y - 2;
          do Screen.setColor(true);
-         do Screen.drawRectangle(x, y, x + size, y + 1);
+         do Screen.drawCircle(x+size, y+size, size);
       }
       return;
    }
 
    /** Moves the square down by 2 pixels. */
    method void moveDown() {
-      if ((y + size) < 254) {
+      if ((y + getS()) < 254) {
          do Screen.setColor(false);
-         do Screen.drawRectangle(x, y, x + size, y + 1);
+         do Screen.drawRectangle(x, y, x + getS(), y + getS());
          let y = y + 2;
          do Screen.setColor(true);
-         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
+         do Screen.drawCircle(x+size, y+size, size);
       }
       return;
    }
@@ -86,23 +86,28 @@ class Square {
    method void moveLeft() {
       if (x > 1) {
          do Screen.setColor(false);
-         do Screen.drawRectangle((x + size) - 1, y, x + size, y + size);
+         do Screen.drawRectangle(x, y, x + getS(), y + getS());
          let x = x - 2;
          do Screen.setColor(true);
-         do Screen.drawRectangle(x, y, x + 1, y + size);
+         do Screen.drawCircle(x+size, y+size, size);
       }
       return;
    }
 
    /** Moves the square right by 2 pixels. */
    method void moveRight() {
-      if ((x + size) < 510) {
+      if ((x + getS()) < 510) {
          do Screen.setColor(false);
-         do Screen.drawRectangle(x, y, x + 1, y + size);
+         do Screen.drawRectangle(x, y, x + getS(), y + getS());
          let x = x + 2;
          do Screen.setColor(true);
-         do Screen.drawRectangle((x + size) - 1, y, x + size, y + size);
+         do Screen.drawCircle(x+size, y+size, size);
       }
       return;
    }
+   
+   method int getX() { return x; }
+   method int getY() { return y; }
+   method int getS() { return size + size; }
+
 }
