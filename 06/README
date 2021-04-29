@@ -1,0 +1,2 @@
+
+python Assembler.py <input.asm> <output.hack>
