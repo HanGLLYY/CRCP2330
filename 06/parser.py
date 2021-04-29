@@ -10,12 +10,14 @@ class Parser:
         self.commands = []
         with open(asm, 'r') as f:
             for line in f:
-                line = line.strip()
-                if line and not self.is_comment(line):
+                line = self.remove_comment(line)
+                if line:
                     self.commands.append(line)
 
-    def is_comment(self, line):
-        return line.startswith('//')
+    def remove_comment(self, line):
+        if '//' in line:
+            line = line.split('//', maxsplit=1)[0]
+        return line.strip()
 
     def command_type(self, cmd):
         if cmd.startswith('@'):
