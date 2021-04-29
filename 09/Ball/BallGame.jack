@@ -14,38 +14,44 @@
  * the square's size. The 'q' key is used to quit the game.
  */
 
-class SquareGame {
-   field Square square; // the square of this game
-   field int direction; // the square's current direction: 
-                        // 0=none, 1=up, 2=down, 3=left, 4=right
+class BallGame {
+   field Ball ball; // the ball of this game
+   field int dx; // the ball's current x direction: 
+   field int dy; // the ball's current y direction: 
 
    /** Constructs a new Square Game. */
-   constructor SquareGame new() {
-      // Creates a 30 by 30 pixels square and positions it at the top-left
+   constructor BallGame new() {
+      // Creates a 30 by 30 pixels ball and positions it at the top-left
       // of the screen.
-      let square = Square.new(0, 0, 30);
-      let direction = 0;  // initial state is no movement
+      let ball = Ball.new(0, 0, 15);
+      let dx = 0;
+      let dy = 0;
       return this;
    }
 
    /** Disposes this game. */
    method void dispose() {
-      do square.dispose();
+      do ball.dispose();
       do Memory.deAlloc(this);
       return;
    }
 
-   /** Moves the square in the current direction. */
-   method void moveSquare() {
-      if (direction = 1) { do square.moveUp(); }
-      if (direction = 2) { do square.moveDown(); }
-      if (direction = 3) { do square.moveLeft(); }
-      if (direction = 4) { do square.moveRight(); }
-      do Sys.wait(5);  // delays the next movement
+   /** Moves the ball in the current direction. */
+   method void moveBall() {
+      if (dx = 0) { if (dy = 0) { return; } }
+      if (ball.getX() + ball.getS() + 2 > 510) { let dx = -1; do ball.incSize(); }
+      if (ball.getX() < 2) { let dx = 1; do ball.incSize(); }
+      if (ball.getY() + ball.getS() + 2 > 254) { let dy = -1; do ball.incSize(); }
+      if (ball.getY() < 2) { let dy = 1; do ball.incSize(); }
+      if (dy = 1) { do ball.moveDown(); }
+      if (dy = -1) { do ball.moveUp(); }
+      if (dx = 1) { do ball.moveRight(); }
+      if (dx = -1) { do ball.moveLeft(); }
+      do Sys.wait(12);  // delays the next movement
       return;
    }
 
-   /** Runs the game: handles the user's inputs and moves the square accordingly */
+   /** Runs the game: handles the user's inputs and moves the ball accordingly */
    method void run() {
       var char key;  // the key currently pressed by the user
       var boolean exit;
@@ -55,20 +61,17 @@ class SquareGame {
          // waits for a key to be pressed
          while (key = 0) {
             let key = Keyboard.keyPressed();
-            do moveSquare();
+            do moveBall();
          }
          if (key = 81)  { let exit = true; }     // q key
-         if (key = 90)  { do square.decSize(); } // z key
-         if (key = 88)  { do square.incSize(); } // x key
-         if (key = 131) { let direction = 1; }   // up arrow
-         if (key = 133) { let direction = 2; }   // down arrow
-         if (key = 130) { let direction = 3; }   // left arrow
-         if (key = 132) { let direction = 4; }   // right arrow
+         if (key = 90)  { do ball.decSize(); } // z key
+         if (key = 88)  { do ball.incSize(); } // x key
+         if (key = 32)  { if (dx = 0) { let dx = 1; let dy = 1; }}
 
          // waits for the key to be released
          while (~(key = 0)) {
             let key = Keyboard.keyPressed();
-            do moveSquare();
+            do moveBall();
          }
      } // while
      return;
