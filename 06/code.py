@@ -68,3 +68,7 @@ def jump(mnemonic):
         return '111'
     else:
         return '000'
+
+
+def value(v):
+    return bin(v)[2:].zfill(15)
