@@ -16,8 +16,30 @@ class Assembler:
         }
         for r in range(16):
             self.symbol_table['R{}'.format(r)] = r
+            
+    def build_symbol_table(self):
+        addr = 0
+        for cmd in self.parser.commands:
+            cmd_type = self.parser.command_type(cmd)
+            if cmd_type == Parser.CommandType.L_COMMAND:
+                sym = self.parser.symbol(cmd)
+                self.symbol_table[sym] = addr
+            else:
+                addr += 1
+
+        addr = 16
+        for cmd in self.parser.commands:
+            if cmd_type == Parser.CommandType.A_COMMAND:
+                sym = self.parser.symbol(cmd)
+                try:
+                    int(sym)
+                except:
+                    if sym not in self.symbol_table:
+                        self.symbol_table[sym] = addr
+                        addr += 1
 
     def assemble(self):
+        self.build_symbol_table()
         codes = []
         for cmd in self.parser.commands:
             cmd_type = self.parser.command_type(cmd)
@@ -33,9 +55,9 @@ class Assembler:
                 else:
                     val = int(sym)
                 codes.append('0' + Code.value(val))
-        print('\n'.join(codes))
-
+        return '\n'.join(codes)
 
 if __name__ == '__main__':
-    assembler  = Assembler('Add.asm')
-    assembler.assemble()
+    import sys
+    assembler  = Assembler(sys.argv[1])
+    print(assembler.assemble())
