@@ -29,6 +29,7 @@ class Assembler:
 
         addr = 16
         for cmd in self.parser.commands:
+            cmd_type = self.parser.command_type(cmd)
             if cmd_type == Parser.CommandType.A_COMMAND:
                 sym = self.parser.symbol(cmd)
                 try:
@@ -55,9 +56,12 @@ class Assembler:
                 else:
                     val = int(sym)
                 codes.append('0' + Code.value(val))
-        return '\n'.join(codes)
-
+        return codes
 if __name__ == '__main__':
     import sys
     assembler  = Assembler(sys.argv[1])
-    print(assembler.assemble())
+    codes = assembler.assemble()
+    with open(sys.argv[2], 'w') as f:
+        for code in codes:
+            f.write(code)
+            f.write('\n')
