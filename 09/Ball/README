@@ -1,0 +1,11 @@
+Ball Game
+
+press "space" to start
+
+press "esc" to exit
+
+press "z" to decrease ball size
+
+press "x" to increase ball size
+
+Every time when the ball collision with the windows, it will increase size.
